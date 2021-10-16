@@ -78,5 +78,48 @@ When we say that a model is linear, we mean that its predictions are a linear fu
 Logistic regression is considered as a linear model because the \textbf{decision boundary used for classification purpose is linear} (i.e. $f(\mathbf{x}) = \mathbf{w}^T \mathbf{x}$).
 
 
+\subsection{CS 337: Multi Class Logistic Regression}
+\subsubsection{}
+Assuming that we don't lower case all letters during featurization: \\
+Let `The' be the $j_1$th word, `food' be the $j_2$th word, `in' be the $j_3$th word, `the' be the $j_4$th word, `restaurant' be the $j_5$th word, `tastes' be the $j_6$th word and, `good' be the $j_7$th word in the vocabulary. \\
+$\phi_j(\text{``The food in the restaurant tastes good"}) = 1$ if $j \in \{j_1, j_2, j_3, j_4, j_5, j_6, j_7 \}$ else $0$.
+
+\medskip
+
+Assuming that we lower case all letters during featurization: \\
+Let `the' be the $j_1$th word, `food' be the $j_2$th word, `in' be the $j_3$th word, `restaurant' be the $j_4$th word, `tastes' be the $j_5$th word and, `good' be the $j_6$th word in the vocabulary. \\
+$\phi_j(\text{``The food in the restaurant tastes good"}) = 1$ if $j \in \{j_1, j_2, j_3, j_4, j_5, j_6 \}$ else $0$.
+
+\subsubsection{}
+Few notable limitations or drawbacks of this featurization technique:
+\begin{itemize}
+  \item Lose of order: We lose the order of words which might be important in determining the meaning and sentiment of the text. \\
+        Example: ``It tastes bad, not good" and ``It tastes good, not bad"
+
+  \item Size of dictionary: Dictionary has a lot of words when compared to a text sample, thus the feature matrix which we obtain is sparse. \\
+        It leads to inefficiency in computation.
+
+  \item In the specified technique, we aren't applying stemming or lower casing of words or removing stop words. All these help in decreasing the dictionary size a lot.
+\end{itemize}
+
+\subsubsection{}
+We would have to learn 3 vectors $w_-, w_0, w_+$, each of length 1000 (feature vector length = vocabulary size). Thus, we require to learn 3000 parameters.
+
+\subsubsection{}
+If we use sum normalization on [1, 2, 3] and [100, 200, 300], we get the same probabilities. \\
+However, as we have more resolution in the latter case, we should judge that the last class is the more probable than it was in the former case. \\
+This is taken care by the soft-max function.
+
+If we try to normalize following unnormalized values [1, 2, 3] and [101, 102, 103], we should get same probabilities as it is just shifted by constant. \\
+However, we get probability of last class as 0.5 in former case and 0.34 in latter case. \\
+This is taken care by the soft-max function.
+
+\subsubsection{}
+(i) Posterior values are sum normalization are 0.04, 0.19, 0.77. \\
+(ii) Posterior values for soft-max normalization are 0.11, 0.16, 0.73. \\
+Values for $y=0$ increases in soft-max while the values of $y=1$ and $y=2$ decreases. \\
+Usually soft-max is a better approximate of hard-max but here the values are close to 1.
+
+
 
 \end{document}
