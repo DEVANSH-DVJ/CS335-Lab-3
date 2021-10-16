@@ -71,4 +71,12 @@ Now, we substitute the one-hot vector $[y_1^{(i)}, y_2^{(i)}]$ with $[y^{(i)}, 1
 Hence, cross entropy function used to train a binary logistic regression is a special case of the categorical cross entropy function given above.
 
 
+\subsection{CS 337: Logistic Regression’s Decision surface}
+The model assigns a value of $y = +1$ to a point $\mathbf{x}$ if $P(y = +1 | \mathbf{x}) = \dfrac{1}{1 + \exp (-\mathbf{w}^T \mathbf{x})} \ge \theta$ which is equivalent to $\mathbf{w}^T \mathbf{x} \ge - \log \bigg( \dfrac{1 - \theta}{\theta} \bigg)$ and this forms the decision boundary.
+
+When we say that a model is linear, we mean that its predictions are a linear function of its parameters. \\
+Logistic regression is considered as a linear model because the \textbf{decision boundary used for classification purpose is linear} (i.e. $f(\mathbf{x}) = \mathbf{w}^T \mathbf{x}$).
+
+
+
 \end{document}
