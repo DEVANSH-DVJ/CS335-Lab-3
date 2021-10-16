@@ -57,14 +57,14 @@ Given Soft-max expression and Categorical cross-entropy function of Multi-class 
   \end{aligned}
 \end{equation*}
 
-Now, we substitute the one-hot vector $[y_1^{(i)}, y_2^{(i)}]$ with $[y^{(i)}, 1 - y^{(i)}]$ and $\mathbf{w}_2 - \mathbf{w}_1$ with $\mathbf{w}$.
+Now, we substitute the one-hot vector $[y_1^{(i)}, y_2^{(i)}]$ with $[y^{(i)}, 1 - y^{(i)}]$ and $\mathbf{w}_1 - \mathbf{w}_2$ with $\mathbf{w}$.
 \begin{equation*}
   \begin{aligned}
-    P(Y = 1| \mathbf{w}, \phi(\mathbf{x})) & = \frac{1}{1 + e^{\mathbf{w}^T \phi(\mathbf{x})}} = \sigma_\mathbf{w} (\mathbf{x})                                                                                                 \\
-    P(Y = 2| \mathbf{w}, \phi(\mathbf{x})) & = \frac{e^{\mathbf{w}^T \phi(\mathbf{x})}}{1 + e^{\mathbf{w}^T \phi(\mathbf{x})}} = 1 - \sigma_\mathbf{w} (\mathbf{x})                                                             \\
-    E(\mathbf{w})                          & = - \frac{1}{N} \sum_{i=1}^N \frac{y^{(i)} + (1 - y^{(i)}) e^{\mathbf{w}^T \phi(\mathbf{x})}}{1 + e^{\mathbf{w}^T \phi(\mathbf{x})}}                                               \\
-                                           & = - \frac{1}{N} \sum_{i=1}^N \frac{y^{(i)}}{1 + e^{\mathbf{w}^T \phi(\mathbf{x})}} + \frac{(1 - y^{(i)}) e^{\mathbf{w}^T \phi(\mathbf{x})}}{1 + e^{\mathbf{w}^T \phi(\mathbf{x})}} \\
-                                           & = - \frac{1}{N} \sum_{i=1}^N y^{(i)} \sigma_\mathbf{w} (\mathbf{x}) + (1 - y^{(i)})(1 - \sigma_\mathbf{w} (\mathbf{x}))                                                            \\
+    P(Y = 1| \mathbf{w}, \phi(\mathbf{x})) & = \frac{1}{1 + e^{-\mathbf{w}^T \phi(\mathbf{x})}} = \sigma_\mathbf{w} (\mathbf{x})                                                                                                   \\
+    P(Y = 2| \mathbf{w}, \phi(\mathbf{x})) & = \frac{e^{-\mathbf{w}^T \phi(\mathbf{x})}}{1 + e^{-\mathbf{w}^T \phi(\mathbf{x})}} = 1 - \sigma_\mathbf{w} (\mathbf{x})                                                              \\
+    E(\mathbf{w})                          & = - \frac{1}{N} \sum_{i=1}^N \frac{y^{(i)} + (1 - y^{(i)}) e^{-\mathbf{w}^T \phi(\mathbf{x})}}{1 + e^{-\mathbf{w}^T \phi(\mathbf{x})}}                                                \\
+                                           & = - \frac{1}{N} \sum_{i=1}^N \frac{y^{(i)}}{1 + e^{-\mathbf{w}^T \phi(\mathbf{x})}} + \frac{(1 - y^{(i)}) e^{-\mathbf{w}^T \phi(\mathbf{x})}}{1 + e^{-\mathbf{w}^T \phi(\mathbf{x})}} \\
+                                           & = - \frac{1}{N} \sum_{i=1}^N y^{(i)} \sigma_\mathbf{w} (\mathbf{x}) + (1 - y^{(i)})(1 - \sigma_\mathbf{w} (\mathbf{x}))                                                               \\
   \end{aligned}
 \end{equation*}
 
