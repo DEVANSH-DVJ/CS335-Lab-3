@@ -118,7 +118,80 @@ This is taken care by the soft-max function.
 (i) Posterior values are sum normalization are 0.04, 0.19, 0.77. \\
 (ii) Posterior values for soft-max normalization are 0.11, 0.16, 0.73. \\
 Values for $y=0$ increases in soft-max while the values of $y=1$ and $y=2$ decreases. \\
-Usually soft-max is a better approximate of hard-max but here the values are close to 1.
+Usually soft-max is a better approximate of hard-max but here the values are close to 1. \\
+
+\medskip
+\textit{Note: For \textbf{(f)} to \textbf{(l)}, assuming that $y_i = k$ means that the point $x_i$ is assigned class $k$, where $k \in \{1, \dots, K\}$. $W = \{w_k : k \in \{1, \dots, K\}  \}$ where $w_k$ is the weight vector for class $k$.}
+
+\subsubsection{}
+\begin{equation*}
+  \begin{aligned}
+    \mathbb{P}(D|W) & = \mathbb{P}(\{(x_i, y_i)\}_{i=1}^n | \{w_k\}_{k=1}^K)                                                                                    \\
+                    & = \prod_{i=1}^n \mathbb{P}((x_i, y_i) | \{w_k\}_{k=1}^K)                                                                                  \\
+                    & = \prod_{i=1}^n \prod_{k=1}^K \mathbb{P}(Y = k | x_i)^{\mathcal{I}(y_i = k)}                                                              \\
+                    & = \prod_{i=1}^n \prod_{k=1}^K \bigg( \frac{\exp (w_k^T \phi(x_i))}{\sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i))} \bigg)^{\mathcal{I}(y_i = k)} \\
+                    & = \prod_{i=1}^n \frac{\prod_{k=1}^K (\exp (w_k^T \phi(x_i)))^{\mathcal{I}(y_i = k)}}{\sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i))}
+  \end{aligned}
+\end{equation*}
+
+\subsubsection{}
+\begin{equation*}
+  \begin{aligned}
+    \log (\mathbb{P}(D|W)) & = \sum_{i=1}^n \bigg( \sum_{k=1}^K \mathcal{I}(y_i = k) (w_k^T \phi(x_i)) - \log \bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg) \bigg)                            \\
+                           & = \bigg[ \sum_{i=1}^n \sum_{k=1}^K \mathcal{I}(y_i = k) (w_k^T \phi(x_i)) \bigg] - \bigg[ \sum_{i=1}^n \log \bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg) \bigg] \\
+                           & = Numer - Denom                                                                                                                                                          \\
+    \\
+    Numer                  & = \sum_{i=1}^n \sum_{k=1}^K \mathcal{I}(y_i = k) (w_k^T \phi(x_i))                                                                                                       \\
+    Denom                  & = \sum_{i=1}^n \log \bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)
+  \end{aligned}
+\end{equation*}
+
+\subsubsection{}
+$w_{j,k}$ is the weight of $j$th feature for class $k$.
+\begin{equation*}
+  \begin{aligned}
+    \frac{\partial Numer}{\partial w_{j,k}} & = \frac{\partial}{\partial w_{j,k}} \bigg( \sum_{i=1}^n \sum_{k'=1}^K \mathcal{I}(y_i = k') (w_{k'}^T \phi(x_i)) \bigg) \\
+                                            & = \sum_{i=1}^n \frac{\partial}{\partial w_{j,k}} \bigg( \mathcal{I}(y_i = k) (w_k^T \phi(x_i)) \bigg)                   \\
+                                            & = \sum_{i=1}^n \mathcal{I}(y_i = k) \frac{\partial}{\partial w_{j,k}} \bigg( w_{j,k} \phi_j(x_i) \bigg)                 \\
+                                            & = \sum_{i=1}^n \mathcal{I}(y_i = k) \phi_j(x_i)
+  \end{aligned}
+\end{equation*}
+
+\subsubsection{}
+$w_{j,k}$ is the weight of $j$th feature for class $k$.
+\begin{equation*}
+  \begin{aligned}
+    \frac{\partial Denom}{\partial w_{j,k}} & = \frac{\partial}{\partial w_{j,k}} \bigg( \sum_{i=1}^n \log \bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg) \bigg)                                                 \\
+                                            & = \sum_{i=1}^n \frac{\partial}{\partial w_{j,k}} \bigg( \log \bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg) \bigg)                                                 \\
+                                            & = \sum_{i=1}^n \frac{1}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \frac{\partial}{\partial w_{j,k}} \bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)    \\
+                                            & = \sum_{i=1}^n \frac{1}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \frac{\partial}{\partial w_{j,k}} \bigg( \exp (w_{k}^T \phi(x_i)) \bigg)                   \\
+                                            & = \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \frac{\partial}{\partial w_{j,k}} \bigg( w_{j,k} \phi_j(x_i) \bigg) \\
+                                            & = \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \phi_j(x_i)
+  \end{aligned}
+\end{equation*}
+
+\subsubsection{}
+\begin{equation*}
+  \begin{aligned}
+    \frac{\partial \log (\mathbb{P}(D|W)}{\partial w_{j,k}} & = \frac{\partial (Numer - Denom)}{\partial w_{j,k}}                                                                                                                                           \\
+                                                            & = \bigg[ \sum_{i=1}^n \mathcal{I}(y_i = k) \phi_j(x_i) \bigg] - \bigg[ \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \phi_j(x_i) \bigg] \\
+                                                            & = \sum_{i=1}^n \bigg[ \mathcal{I}(y_i = k) \phi_j(x_i) - \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \bigg] \phi_j(x_i)
+  \end{aligned}
+\end{equation*}
+
+\subsubsection{}
+\begin{equation*}
+  \begin{aligned}
+     & \forall \ j,k;  \frac{\partial \log (\mathbb{P}(D|W)}{\partial w_{j,k}} = 0 \ \bigg\vert_{W = W^*}                                                                                           \\
+     & \forall \ j,k;  \sum_{i=1}^n \mathcal{I}(y_i = k) \phi_j(x_i) = \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \phi_j(x_i)              \\
+     & \forall \ k \in \{1, \dots, K\}; \sum_{i=1}^n \mathcal{I}(y_i = k) \phi(x_i) = \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \phi(x_i) \\
+     & \forall \ k \in \{1, \dots, K\}; \sum_{i=1}^n \mathcal{I}(y_i = k) \phi(x_i) = \sum_{i=1}^n \mathbb{P}(Y = k | x_i) \phi(x_i)                                                                \\
+  \end{aligned}
+\end{equation*}
+These are the Balance Equations.
+
+\subsubsection{}
+The equations mean ``For optimal $W^*$, the sum of feature vectors belonging to a given class $k$ is equal to the weighted sum of all feature vectors where weights are the probability of the point belonging to class $k$ as predicted by the model".
 
 
 
