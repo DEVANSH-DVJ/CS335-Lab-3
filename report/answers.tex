@@ -129,7 +129,7 @@ Usually soft-max is a better approximate of hard-max but here the values are clo
   \begin{aligned}
     \mathbb{P}(D|W) & = \mathbb{P}(\{(x_i, y_i)\}_{i=1}^n | \{w_k\}_{k=1}^K)                                                                                    \\
                     & = \prod_{i=1}^n \mathbb{P}((x_i, y_i) | \{w_k\}_{k=1}^K)                                                                                  \\
-                    & = \prod_{i=1}^n \prod_{k=1}^K \mathbb{P}(Y = k | x_i)^{\mathcal{I}(y_i = k)}                                                              \\
+                    & = \prod_{i=1}^n \prod_{k=1}^K \mathbb{P}_W (y_i = k | x_i)^{\mathcal{I}(y_i = k)}                                                         \\
                     & = \prod_{i=1}^n \prod_{k=1}^K \bigg( \frac{\exp (w_k^T \phi(x_i))}{\sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i))} \bigg)^{\mathcal{I}(y_i = k)} \\
                     & = \prod_{i=1}^n \frac{\prod_{k=1}^K (\exp (w_k^T \phi(x_i)))^{\mathcal{I}(y_i = k)}}{\sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i))}
   \end{aligned}
@@ -186,13 +186,25 @@ $w_{j,k}$ is the weight of $j$th feature for class $k$.
      & \forall \ j,k;  \frac{\partial \log (\mathbb{P}(D|W)}{\partial w_{j,k}} = 0 \ \bigg\vert_{W = W^*}                                                                                           \\
      & \forall \ j,k;  \sum_{i=1}^n \mathcal{I}(y_i = k) \phi_j(x_i) = \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \phi_j(x_i)              \\
      & \forall \ k \in \{1, \dots, K\}; \sum_{i=1}^n \mathcal{I}(y_i = k) \phi(x_i) = \sum_{i=1}^n \frac{\exp (w_{k}^T \phi(x_i))}{\bigg( \sum_{k'=1}^K \exp (w_{k'}^T \phi(x_i)) \bigg)} \phi(x_i) \\
-     & \forall \ k \in \{1, \dots, K\}; \sum_{i=1}^n \mathcal{I}(y_i = k) \phi(x_i) = \sum_{i=1}^n \mathbb{P}(Y = k | x_i) \phi(x_i)                                                                \\
+     & \forall \ k \in \{1, \dots, K\}; \sum_{i=1}^n \mathcal{I} (y_i = k) \phi(x_i) = \sum_{i=1}^n \mathbb{P}_{W^*} (y_i = k | x_i) \phi(x_i)
   \end{aligned}
 \end{equation*}
 These are the Balance Equations.
 
 \subsubsection{}
 The equations mean ``For optimal $W^*$, the sum of feature vectors belonging to a given class $k$ is equal to the weighted sum of all feature vectors where weights are the probability of the point belonging to class $k$ as predicted by the model".
+\begin{equation*}
+  \begin{aligned}
+     & \forall \ k \in \{1, \dots, K\}; \sum_{i=1}^n \mathcal{P}_D (y_i = k | x_i) \phi(x_i) = \sum_{i=1}^n \mathbb{P}_{W^*} (y_i = k | x_i) \phi(x_i)
+  \end{aligned}
+\end{equation*}
+In other words, ``For optimal $W^*$, the amount of \textit{probability mass} allocated to class k in the training set equals the amount of \textit{probability mass} allocated to class k by the model."
+\begin{equation*}
+  \begin{aligned}
+     & \forall \ k \in \{1, \dots, K\}; \ E_D [\phi(X) | Y = k] = E_{W^*} [\phi(X) | Y = k]
+  \end{aligned}
+\end{equation*}
+``$E_D$ is the expectation over the true training data distribution and $E_{W^*}$ is the expectation over our model’s predicted distribution."
 
 
 \newpage
