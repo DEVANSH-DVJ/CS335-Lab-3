@@ -12,6 +12,7 @@
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage{sectsty}
+\usepackage{enumitem}
 \renewcommand{\thesubsubsection}{(\alph{subsubsection})}
 
 \usepackage[dvipsnames]{xcolor}
@@ -192,6 +193,90 @@ These are the Balance Equations.
 
 \subsubsection{}
 The equations mean ``For optimal $W^*$, the sum of feature vectors belonging to a given class $k$ is equal to the weighted sum of all feature vectors where weights are the probability of the point belonging to class $k$ as predicted by the model".
+
+
+\newpage
+\subsection{CS 335: Lab Problems}
+\subsubsection{}
+\begin{enumerate}[label=(\roman*)]
+  \item Code for the functions \verb!normalize()!, \verb!scaling()! and \verb!split_data! updated in notebook. \\
+        \verb!split_data! works better with scaling than normalize.
+  \item Code for the function \verb!get_data_for_class()! updated in notebook.
+  \item Code for the function \verb!sample_training_points()! updated in notebook.
+  \item Code for the functions \verb!sigmoid()!, \verb!cross_entropy_loss()! and \verb!grad()! updated in notebook.
+  \item Code for the function \verb!logistic_regression()! updated in notebook.
+  \item Code for the function \verb!prediction()! updated in notebook.
+  \item Code for the function \verb!accuracy()! updated in notebook.
+\end{enumerate}
+
+\subsubsection{}
+Trained classifier: \\
+Hyper-parameters used - \texttt{epochs=500, lr=0.1, sample\_size=600} \\
+\begin{tabular}{|c||c||}
+  \hline
+          & Accuracy \\
+  \hline
+  Total   & 0.9425   \\
+  Class 1 & 1.0      \\
+  Class 4 & 0.9063   \\
+  Class 7 & 0.8958   \\
+  Class 9 & 0.9612   \\
+  \hline
+\end{tabular} \\
+
+Model M: \\
+\begin{tabular}{|c||c||}
+  \hline
+          & Accuracy \\
+  \hline
+  Total   & 0.2625   \\
+  Class 1 & 1.0      \\
+  Class 4 & 0.0      \\
+  Class 7 & 0.0      \\
+  Class 9 & 0.0      \\
+  \hline
+\end{tabular} \\
+
+Class based accuracy is not a good metrics as even though there are a lot of false positives for class 1 in model M, it gives accuracy of 1. \\
+And total accuracy of Model M is fraction of images with true value 1. If this number was high then we would get a higher total accuracy without changing the model (which obviously is a really bad model)
+
+However, here as the classes have similar number of images, total accuracy is a good metrics. \\
+
+\subsubsection{}
+Code for the function \verb!calculate_metrics()! updated in notebook. \\
+
+Trained classifier: \\
+Hyper-parameters used - \texttt{epochs=500, lr=0.1, sample\_size=600} \\
+\begin{tabular}{|c||c|c|c||}
+  \hline
+          & Precision & Recall & F1-score \\
+  \hline
+  Total   & 0.9451    & 0.9425 & 0.9425   \\
+  Class 1 & 0.9633    & 1.0000 & 0.9813   \\
+  Class 4 & 0.9886    & 0.9063 & 0.9457   \\
+  Class 7 & 0.9556    & 0.8958 & 0.9247   \\
+  Class 9 & 0.8761    & 0.9612 & 0.9167   \\
+  \hline
+\end{tabular} \\
+
+Model M: \\
+\begin{tabular}{|c||c|c|c||}
+  \hline
+          & Precision & Recall & F1-score \\
+  \hline
+  Total   & 0.0689    & 0.2625 & 0.1092   \\
+  Class 1 & 0.2625    & 1.0000 & 0.4158   \\
+  Class 4 & 0.0000    & 0.0000 & 0.0000   \\
+  Class 7 & 0.0000    & 0.0000 & 0.0000   \\
+  Class 9 & 0.0000    & 0.0000 & 0.0000   \\
+  \hline
+\end{tabular} \\
+
+Recall is same as accuracy. Precision takes into account false positives. This makes F1-score a much better than just accuracy.
+
+\medskip
+
+\textit{Note: To avoid division by zero, I have assumed that the precision, recall and F1-score is 0 if count of true positives is 0.}
 
 
 
